@@ -54,3 +54,58 @@ voltagetouse577 = forward_voltage_V577(1:301);
 
 plot(voltagetouse577, averagecurrent577, 'o');
 
+
+firstrun546 = forward_current_A546(1:301);
+secondrun546 = forward_current_A546(302:602);
+thirdrun546 = forward_current_A546(603:903);
+
+averagecurrent546 = [];
+for i = 1:301;
+    averagecurrent546i = (firstrun546(i) + secondrun546(i) + thirdrun546(i))/3;
+    averagecurrent546(i) =  averagecurrent546i;
+end
+voltagetouse546 = forward_voltage_V546(1:301);
+
+plot(voltagetouse546, averagecurrent546, 'o');
+
+
+firstrun436 = forward_current_A436(1:301);
+secondrun436 = forward_current_A436(302:602);
+thirdrun436 = forward_current_A436(603:903);
+
+averagecurrent436 = [];
+for i = 1:301;
+    averagecurrent436i = (firstrun436(i) + secondrun436(i) + thirdrun436(i))/3;
+    averagecurrent436(i) =  averagecurrent436i;
+end
+voltagetouse436 = forward_voltage_V436(1:301);
+
+plot(voltagetouse436, averagecurrent436, 'o');
+
+
+firstrun405 = forward_current_A405(1:301);
+secondrun405 = forward_current_A405(302:602);
+thirdrun405 = forward_current_A405(603:903);
+
+averagecurrent405 = [];
+for i = 1:301;
+    averagecurrent405i = (firstrun405(i) + secondrun405(i) + thirdrun405(i))/3;
+    averagecurrent405(i) =  averagecurrent405i;
+end
+voltagetouse405 = forward_voltage_V405(1:301);
+
+plot(voltagetouse405, averagecurrent405, 'o');
+
+
+firstrun365 = forward_current_A365(1:301);
+secondrun365 = forward_current_A365(302:602);
+thirdrun365 = forward_current_A365(603:903);
+
+averagecurrent365 = [];
+for i = 1:301;
+    averagecurrent365i = (firstrun365(i) + secondrun365(i) + thirdrun365(i))/3;
+    averagecurrent365(i) =  averagecurrent365i;
+end
+voltagetouse365 = forward_voltage_V365(1:301);
+
+plot(voltagetouse365, averagecurrent365, 'o');

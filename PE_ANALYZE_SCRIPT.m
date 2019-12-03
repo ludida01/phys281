@@ -134,9 +134,9 @@ hold on;
 
 % Calculate aveage data point
 running_total_577 = 0;
-g = current_reverse_standard_error_577(35:40);
+g577 = current_reverse_standard_error_577(35:40);
 for i = 1:6;
-    g(i) + running_total_577;
+    g577(i) + running_total_577;
 end
 average_threshold_point_577 = running_total_577 / 6;
 
@@ -257,9 +257,9 @@ hold on;
 
 % Calculate aveage data point
 running_total_546 = 0;
-g = current_reverse_standard_error_546(35:40);
+g546 = current_reverse_standard_error_546(35:40);
 for i = 1:6;
-    g(i) + running_total_546;
+    g546(i) + running_total_546;
 end
 average_threshold_point_546 = running_total_546 / 6;
 
@@ -381,9 +381,9 @@ hold on;
 
 % Calculate aveage data point
 running_total_436 = 0;
-g = current_reverse_standard_error_436(35:40);
+g436 = current_reverse_standard_error_436(35:40);
 for i = 1:6;
-    g(i) + running_total_436;
+    g436(i) + running_total_436;
 end
 average_threshold_point_436 = running_total_436 / 6;
 
@@ -501,9 +501,9 @@ hold on;
 
 % Calculate aveage data point
 running_total_405 = 0;
-g = current_reverse_standard_error_405(35:40);
+g405 = current_reverse_standard_error_405(35:40);
 for i = 1:6;
-    g(i) + running_total_405;
+    g405(i) + running_total_405;
 end
 average_threshold_point_405 = running_total_405 / 6;
 
@@ -621,9 +621,9 @@ hold on;
 
 % Calculate aveage data point
 running_total_365 = 0;
-g = current_reverse_standard_error_365(35:40);
+g365 = current_reverse_standard_error_365(35:40);
 for i = 1:6;
-    g(i) + running_total_365;
+    g365(i) + running_total_365;
 end
 average_threshold_point_365 = running_total_365 / 6;
 

@@ -76,6 +76,8 @@ hold on;
 plot(imax_577_fit);
 grid on;
 imax_577 = imax_577_fit_coeff(1);
+i_max_fit_confint = confint(imax_577_fit, 0.68);
+imax_577_unc = (i_max_fit_confint(2,1)-i_max_fit_confint(1,1))/2;
 title("Fitted Exponential Curve to Forward Bias Current vs. Voltage (577nm Filter)")
 xlabel('Voltage (V)') 
 ylabel('Current (A)')
@@ -239,6 +241,8 @@ hold on;
 plot(imax_546_fit);
 grid on;
 imax_546 = imax_546_fit_coeff(1);
+i_max_fit_confint = confint(imax_546_fit, 0.68);
+imax_546_unc = (i_max_fit_confint(2,1)-i_max_fit_confint(1,1))/2;
 title("Fitted Exponential Curve to Forward Bias Current vs. Voltage (546nm Filter)")
 xlabel('Voltage (V)') 
 ylabel('Current (A)')
@@ -401,6 +405,8 @@ hold on;
 plot(imax_436_fit);
 grid on;
 imax_436 = imax_436_fit_coeff(1);
+i_max_fit_confint = confint(imax_436_fit, 0.68);
+imax_436_unc = (i_max_fit_confint(2,1)-i_max_fit_confint(1,1))/2;
 title("Fitted Exponential Curve to Forward Bias Current vs. Voltage (436nm Filter)")
 xlabel('Voltage (V)') 
 ylabel('Current (A)')
@@ -563,6 +569,8 @@ hold on;
 plot(imax_405_fit);
 grid on;
 imax_405 = imax_405_fit_coeff(1);
+i_max_fit_confint = confint(imax_405_fit, 0.68);
+imax_405_unc = (i_max_fit_confint(2,1)-i_max_fit_confint(1,1))/2;
 title("Fitted Exponential Curve to Forward Bias Current vs. Voltage (405nm Filter)")
 xlabel('Voltage (V)') 
 ylabel('Current (A)')
@@ -726,6 +734,8 @@ hold on;
 plot(imax_365_fit);
 grid on;
 imax_365 = imax_365_fit_coeff(1);
+i_max_fit_confint = confint(imax_365_fit, 0.68);
+imax_365_unc = (i_max_fit_confint(2,1)-i_max_fit_confint(1,1))/2;
 title("Fitted Exponential Curve to Forward Bias Current vs. Voltage (365nm Filter)")
 xlabel('Voltage (V)') 
 ylabel('Current (A)')
@@ -863,33 +873,55 @@ one_line_stop_V = [0.5, 0.5, 0.9, 1.1, 1.35];
 voltage_unc = [.05, .05, .05, .05, .05]
 frequency_unc = [0, 0, 0, 0, 0]
 
-%%% THIS IS WHERE I LEFT OFF. I JUST UPDATED THE VALUES ABOVE. NEED TO
-%%% UPDATE EVERYTHING BELOW AND DO UNCERTAINTY ANALYISS
-
-
-
 
 % Average values from both methods
 avg_stop_V = [0.485, 0.50, 0.875, 1.09, 1.305];
+avg_stop_V_top_big_bottom_small = [0.535, 1.255];
+avg_stop_V_bottom_big_top_small = [0.435, 1.355];
 
 frequency = [5.20*10^14, 5.49*10^14, 6.88*10^14, 7.41*10^14, 8.22*10^14];
+frequency_extremes = [5.20*10^14, 8.22*10^14];
 
 figure
 errorbar(frequency, avg_stop_V, voltage_unc, voltage_unc, frequency_unc, frequency_unc, 'o')
 grid on;
 hold on;
 fit1 = polyfit(frequency,avg_stop_V,1);
-xFit = linspace(0, 8.5e14, 100);
 yFit1 = polyval(fit1, frequency);
 plot(frequency,yFit1)
-title("Averaged Stopping Voltage vs. Light Frequency with Two linear Fits")
+title("Averaged Stopping Voltage vs. Light Frequency")
 xlabel("Light Frequency (Hz)")
 ylabel("Stopping Voltage (V)")
-grid on;
 legend('Average Data', 'Fit of Average Data')
+
+
+
+figure
+errorbar(frequency, avg_stop_V, voltage_unc, voltage_unc, frequency_unc, frequency_unc, 'o')
+grid on;
+hold on;
+fit1 = polyfit(frequency,avg_stop_V,1);
+yFit1 = polyval(fit1, frequency);
+plot(frequency,yFit1)
+
+fit2 = polyfit(frequency_extremes,avg_stop_V_top_big_bottom_small,1);
+yFit2 = polyval(fit2, frequency_extremes);
+plot(frequency_extremes,yFit2)
+fit3 = polyfit(frequency_extremes,avg_stop_V_bottom_big_top_small,1);
+yFit3 = polyval(fit3, frequency_extremes);
+plot(frequency_extremes,yFit3)
+
+title("Averaged Stopping Voltage vs. Light Frequency with Minimum and Maximum Linear Fits")
+xlabel("Light Frequency (Hz)")
+ylabel("Stopping Voltage (V)")
+legend('Average Data', 'Fit of Average Data', 'Smallest Work Function Fit', 'Largest Work Function Fit')
+avg_work_func = -fit1(2)
+avg_slope = fit1(1)
+large_work_func = -fit3(2)
+small_slope = fit3(1)
+small_work_func = -fit2(2)
+large_slope = fit2(1)
 hold off;
-work_func = -fit1(2)
-slope = fit1(1)
 
 figure
 errorbar(frequency, two_line_stop_V, voltage_unc, voltage_unc, frequency_unc, frequency_unc, 'ro')
@@ -909,4 +941,46 @@ yFit2 = polyval(fit2, frequency);
 plot(frequency,yFit2,'b')
 title("Stopping Voltage vs. Light Frequency with Both Methods")
 legend('Intersection Method Data','Intersection Method Fit','Threashold Method Data','Threashold Method Fit')
+grid on;
+
+
+% Plot a figure with both data sets on one graph for forward bias
+figure
+errorbar(voltagetouse405, averagecurrent405',current_standard_error_405,current_standard_error_405,voltage_unc_405,voltage_unc_405);
+hold on;
+plot(voltagetouse405, averagecurrent405');
+errorbar(voltagetouse365, averagecurrent365',current_standard_error_365,current_standard_error_365,voltage_unc_365,voltage_unc_365);
+hold on;
+plot(voltagetouse405, averagecurrent365');
+errorbar(voltagetouse436, averagecurrent436',current_standard_error_436,current_standard_error_436,voltage_unc_436,voltage_unc_436);
+hold on;
+plot(voltagetouse405, averagecurrent436');
+errorbar(voltagetouse546, averagecurrent546',current_standard_error_546,current_standard_error_546,voltage_unc_546,voltage_unc_546);
+hold on;
+plot(voltagetouse405, averagecurrent546');
+errorbar(voltagetouse577, averagecurrent577',current_standard_error_577,current_standard_error_577,voltage_unc_577,voltage_unc_577);
+hold on;
+plot(voltagetouse405, averagecurrent577');
+grid on;
+title("Current vs. Voltage Forward Bias (All Filters)")
+xlabel('Voltage (V)') 
+ylabel('Current (A)')
+
+
+%Plot a figure with both data sets on one graph for reverse bias
+figure
+errorbar(voltagetouse_reverse_405, averagecurrent_reverse_405,current_reverse_standard_error_405,current_reverse_standard_error_405,voltage_unc_reverse_405,voltage_unc_reverse_405)
+hold on;
+plot(voltagetouse_reverse_405, averagecurrent_reverse_405);
+errorbar(voltagetouse_reverse_365, averagecurrent_reverse_365,current_reverse_standard_error_365,current_reverse_standard_error_365,voltage_unc_reverse_365,voltage_unc_reverse_365)
+plot(voltagetouse_reverse_365, averagecurrent_reverse_365);
+errorbar(voltagetouse_reverse_436, averagecurrent_reverse_436,current_reverse_standard_error_436,current_reverse_standard_error_436,voltage_unc_reverse_436,voltage_unc_reverse_436)
+plot(voltagetouse_reverse_436, averagecurrent_reverse_436);
+errorbar(voltagetouse_reverse_546, averagecurrent_reverse_546,current_reverse_standard_error_546,current_reverse_standard_error_546,voltage_unc_reverse_546,voltage_unc_reverse_546)
+plot(voltagetouse_reverse_546, averagecurrent_reverse_546);
+errorbar(voltagetouse_reverse_577, averagecurrent_reverse_577,current_reverse_standard_error_577,current_reverse_standard_error_577,voltage_unc_reverse_577,voltage_unc_reverse_577)
+plot(voltagetouse_reverse_577, averagecurrent_reverse_577);
+title("Current vs. Voltage Reverse Bias (All Filters)")
+xlabel('Voltage (V)') 
+ylabel('Current (A)')
 grid on;
